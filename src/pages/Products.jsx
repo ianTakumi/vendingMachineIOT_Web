@@ -12,11 +12,14 @@ import {
   X,
 } from "lucide-react";
 import client from "../utils/axiosInstance";
+import { useDocumentTitle } from "../utils/useDocumentTitle";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useDocumentTitle("Products Management - RFID Vending Machine");
 
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);

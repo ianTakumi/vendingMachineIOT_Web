@@ -14,11 +14,13 @@ import {
   Calendar,
 } from "lucide-react";
 import client from "../utils/axiosInstance";
+import { useDocumentTitle } from "../utils/useDocumentTitle";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  useDocumentTitle("Users Management - RFID Vending Machine");
 
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);

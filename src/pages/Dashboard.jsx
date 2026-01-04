@@ -29,10 +29,15 @@ import {
   AlertTriangle,
   CheckCircle,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useDocumentTitle } from "../utils/useDocumentTitle";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState("today");
+  const navigate = useNavigate();
+
+  useDocumentTitle("Dashboard - RFID Vending Machine");
 
   // State for fetched data
   const [products, setProducts] = useState([]);
@@ -75,7 +80,7 @@ const Dashboard = () => {
       // Calculate statistics
       calculateStatistics(productsData, ordersData, usersData, timeRange);
 
-      toast.success("Dashboard data updated", {
+      toast.success("Dashboard data fetched successfully", {
         position: "top-right",
         autoClose: 2000,
       });
@@ -689,7 +694,10 @@ const Dashboard = () => {
                 </div>
               )}
               <div className="mt-6 text-center">
-                <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+                <button
+                  onClick={() => navigate("/transactions")}
+                  className="text-blue-600 hover:text-blue-700 font-medium text-sm hover:underline"
+                >
                   View all transactions →
                 </button>
               </div>

@@ -1,0 +1,13 @@
+// hooks/useDocumentTitle.js
+import { useEffect } from "react";
+
+export const useDocumentTitle = (title) => {
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = title;
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [title]);
+};
