@@ -135,22 +135,6 @@ const Sidebar = () => {
                   <p className="text-xs text-gray-400">Super Admin</p>
                 </div>
               </div>
-              <button
-                onClick={handleLogout}
-                className="p-2 rounded-lg bg-gray-800/50 hover:bg-red-500/20 text-gray-300 hover:text-red-400 transition-colors"
-                title="Logout"
-              >
-                <LogOut className="h-4 w-4" />
-              </button>
-            </div>
-
-            {/* System Status */}
-            <div className="flex items-center justify-between px-3 py-2 bg-gray-800/30 rounded-lg">
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-xs text-gray-300">System Online</span>
-              </div>
-              <span className="text-xs text-cyan-400">v2.1.4</span>
             </div>
           </div>
         </aside>
