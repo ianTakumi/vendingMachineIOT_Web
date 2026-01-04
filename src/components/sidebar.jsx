@@ -49,33 +49,6 @@ const Sidebar = () => {
             </NavLink>
           ))}
         </nav>
-
-        {/* Machine Status */}
-        {!collapsed && (
-          <div className="p-4 border-t border-gray-200 bg-gray-50">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-900">
-                  Machine Status
-                </span>
-                <div className="flex items-center">
-                  <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse mr-2"></div>
-                  <span className="text-xs text-green-600 font-medium">
-                    Online
-                  </span>
-                </div>
-              </div>
-
-              <div className="text-xs text-gray-600">
-                <p>
-                  RFID:{" "}
-                  <span className="font-medium text-green-600">Connected</span>
-                </p>
-                <p className="mt-1">Last sync: 2 min ago</p>
-              </div>
-            </div>
-          </div>
-        )}
       </aside>
     </>
   );
