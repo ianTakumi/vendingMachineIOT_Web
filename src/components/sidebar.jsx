@@ -1,81 +1,160 @@
+// Sidebar.jsx
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Package,
   Users,
-  ChevronLeft,
-  ChevronRight,
+  ShoppingCart,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+  Home,
+  CreditCard,
+  BarChart3,
+  Shield,
 } from "lucide-react";
 
 const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   const menuItems = [
     { path: "/", icon: LayoutDashboard, label: "Dashboard" },
     { path: "/products", icon: Package, label: "Products" },
     { path: "/users", icon: Users, label: "Users" },
+    { path: "/transactions", icon: ShoppingCart, label: "Transactions" },
   ];
+
+  // Auto-close sidebar on mobile when route changes
+  React.useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
+
+  const handleLogout = () => {
+    // Add your logout logic here
+    console.log("Logging out...");
+  };
 
   return (
     <>
-      {/* Mobile sidebar overlay */}
-      {collapsed && (
+      {/* Mobile Toggle Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+        aria-label="Toggle menu"
+      >
+        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </button>
+
+      {/* Overlay for mobile */}
+      {isOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden"
-          onClick={() => setCollapsed(false)}
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
+          onClick={() => setIsOpen(false)}
         />
       )}
 
-      <aside
-        className={`${
-          collapsed ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        } fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:flex lg:flex-col`}
+      {/* Sidebar */}
+      <div
+        className={`
+          fixed lg:fixed inset-y-0 left-0 z-40 
+          h-screen
+          transform transition-transform duration-300
+          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+        `}
       >
-        {/* Logo/Header */}
-        <div className="p-6 border-b border-gray-200">
-          <h1 className="text-xl font-bold text-gray-900">Vending Admin</h1>
-          <p className="text-sm text-gray-600 mt-1">Management System</p>
-        </div>
+        <aside className="w-64 h-full bg-gradient-to-b from-gray-900 to-gray-800 text-white flex flex-col shadow-2xl">
+          {/* Logo Section */}
+          <div className="p-6 border-b border-gray-700/50 flex-shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg">
+                <Home className="h-6 w-6" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent">
+                  Vending Pro
+                </h1>
+                <p className="text-xs text-gray-400 mt-1">
+                  Smart Dispenser System
+                </p>
+              </div>
+            </div>
+          </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-1">
-          {menuItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${
-                  isActive
-                    ? "bg-blue-50 text-blue-700 font-medium border-l-4 border-blue-500"
-                    : "text-gray-700 hover:bg-gray-100"
-                }`
-              }
-              onClick={() => {
-                // Close sidebar on mobile when clicking a link
-                if (window.innerWidth < 1024) {
-                  setCollapsed(false);
-                }
-              }}
-            >
-              <item.icon className="h-5 w-5" />
-              <span>{item.label}</span>
-            </NavLink>
-          ))}
-        </nav>
+          {/* Navigation - Scrollable if needed */}
+          <div className="flex-1 overflow-y-auto py-6">
+            <nav className="px-4 space-y-1">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-3">
+                Main Menu
+              </p>
+              {menuItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={`
+                      flex items-center gap-3 px-3 py-3 rounded-xl
+                      transition-all duration-200
+                      ${
+                        isActive
+                          ? "bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-white border-l-4 border-cyan-400"
+                          : "text-gray-300 hover:bg-gray-800/50 hover:text-white"
+                      }
+                    `}
+                  >
+                    <div
+                      className={`p-2 rounded-lg ${
+                        isActive
+                          ? "bg-gradient-to-br from-blue-500 to-cyan-500"
+                          : "bg-gray-800"
+                      }`}
+                    >
+                      <item.icon className="h-4 w-4" />
+                    </div>
+                    <span className="font-medium">{item.label}</span>
+                  </NavLink>
+                );
+              })}
+            </nav>
+          </div>
 
-        {/* Mobile Toggle Button */}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="lg:hidden absolute top-4 right-4 z-50 p-2 rounded-md bg-white border border-gray-200 shadow-sm"
-        >
-          {collapsed ? (
-            <ChevronLeft className="h-5 w-5 text-gray-600" />
-          ) : (
-            <ChevronRight className="h-5 w-5 text-gray-600" />
-          )}
-        </button>
-      </aside>
+          {/* Footer/User Info & Logout */}
+          <div className="p-4 border-t border-gray-700/50 flex-shrink-0">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg">
+                  <Shield className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white">
+                    Administrator
+                  </p>
+                  <p className="text-xs text-gray-400">Super Admin</p>
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="p-2 rounded-lg bg-gray-800/50 hover:bg-red-500/20 text-gray-300 hover:text-red-400 transition-colors"
+                title="Logout"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* System Status */}
+            <div className="flex items-center justify-between px-3 py-2 bg-gray-800/30 rounded-lg">
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-xs text-gray-300">System Online</span>
+              </div>
+              <span className="text-xs text-cyan-400">v2.1.4</span>
+            </div>
+          </div>
+        </aside>
+      </div>
     </>
   );
 };
