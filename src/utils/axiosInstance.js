@@ -1,8 +1,12 @@
 import axios from "axios";
 
+const baseURL = import.meta.env.PROD
+  ? "https://vendingmachineiot-server.onrender.com/api"
+  : "http://localhost:5000/api";
+
 const client = axios.create({
-  baseURL: "http://localhost:5000/api",
-  timeout: 10000, // 10 seconds
+  baseURL,
+  timeout: 30000,
   headers: {
     "Content-Type": "application/json",
   },
